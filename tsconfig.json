@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "lib": [
+            "ES2020"
+        ],
+        "target": "ES5",
+        "rootDir": "./src",
+        "outDir": "./lib"
+    }
+}
