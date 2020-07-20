@@ -47,18 +47,19 @@ class ContentLoader {
         let finishedCollectingWords = false;
         let finishedCollectingSentences = false; // could be much better, but hey, it works
         return new Promise((resolve, reject) => {
+            const wordSplitRegex = /(\r\n|\r|\n)/;
             const wordsStream = fs.createReadStream(this.options.textFileOptions.wordsFilePath);
             const sentencesStream = fs.createReadStream(this.options.textFileOptions.sentencesFilePath);
             wordsStream.on("data", (chunk: string) => {
                 collectedWords += chunk;
             });
             wordsStream.on("end", () => {
-                finishedCollectingWords = true;
                 wordsStream.close();
+                finishedCollectingWords = true;
                 if (finishedCollectingSentences) {
                     resolve({
-                        words: collectedWords.split(/[\r\n]/),
-                        sentences: collectedSentences.split(/[\r\n]/)
+                        words: collectedWords.split(wordSplitRegex),
+                        sentences: collectedSentences.split(wordSplitRegex)
                     });
                 }
             });
@@ -66,12 +67,12 @@ class ContentLoader {
                 collectedSentences += ch;
             });
             sentencesStream.on("end", () => {
-                finishedCollectingWords = true;
                 sentencesStream.close();
+                finishedCollectingWords = true;
                 if (finishedCollectingWords) {
                     resolve({
-                        words: collectedWords.split("\n"),
-                        sentences: collectedSentences.split("\n")
+                        words: collectedWords.split(wordSplitRegex),
+                        sentences: collectedSentences.split(wordSplitRegex)
                     });
                 }
             });
