@@ -1,4 +1,3 @@
-
 /**
  * Process a message to make it suitable to learn. Involves replacing newlines, carriage returns, etc.... as well as surrounding punctuation marks with spaces.
  * @example padMessagePunctuation("Jellow! Welcome!") => "jellow ! welcome !"
